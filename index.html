@@ -168,16 +168,17 @@
 
     <div id="armarios" class="content hidden">
         <h2>Armários</h2>
-        <button onclick="addItem('armario')">Adicionar Armário</button>
+        <button onclick="addArmario()">Adicionar Armário</button>
         
         <table id="armario-table">
             <thead>
-                <tr id="c">
-                    
+                <tr id="c">                    
                 </tr>
             </thead>
-            <tbody>
-                <tr id="portas"></tr>
+            <tbody id="tbody">
+                <tr id="linha-inputs">
+                    <!-- As colunas dos armários serão adicionadas aqui -->
+                </tr>
             </tbody>
         </table>
     </div>
@@ -219,33 +220,33 @@
         
 
 
-        function addRow(columnIndex) {
-        const table = document.querySelector('#armario-table');
-        const tbody = table.querySelector('tbody');
+    //     function addRow(columnIndex) {
+    //     const table = document.querySelector('#armario-table');
+    //     const tbody = table.querySelector('tbody');
 
-        // Se não houver linhas, adiciona a primeira
-        if (tbody.children.length === 0) {
-            const newRow = document.createElement('tr');
-            for (let i = 0; i < columnCount; i++) {
-                const newCell = document.createElement('td');
-                newRow.appendChild(newCell);
-            }
-            tbody.appendChild(newRow);
-        }
+    //     // Se não houver linhas, adiciona a primeira
+    //     if (tbody.children.length === 0) {
+    //         const newRow = document.createElement('tr');
+    //         for (let i = 0; i < columnCount; i++) {
+    //             const newCell = document.createElement('td');
+    //             newRow.appendChild(newCell);
+    //         }
+    //         tbody.appendChild(newRow);
+    //     }
 
-        // Adiciona uma nova linha na coluna correspondente
-        const newRow = document.createElement('tr');
-        for (let i = 0; i < columnCount; i++) {
-            const newCell = document.createElement('td');
-            if (i === columnIndex - 1) {
-                const input = document.createElement('input');
-                input.type = 'text';
-                newCell.appendChild(input);
-            }
-            newRow.appendChild(newCell);
-        }
-        tbody.appendChild(newRow);
-    }
+    //     // Adiciona uma nova linha na coluna correspondente
+    //     const newRow = document.createElement('tr');
+    //     for (let i = 0; i < columnCount; i++) {
+    //         const newCell = document.createElement('td');
+    //         if (i === columnIndex - 1) {
+    //             const input = document.createElement('input');
+    //             input.type = 'text';
+    //             newCell.appendChild(input);
+    //         }
+    //         newRow.appendChild(newCell);
+    //     }
+    //     tbody.appendChild(newRow);
+    // }
 
 
 
@@ -253,7 +254,7 @@
 
         const loadSavedData = () => {
             const tags = JSON.parse(localStorage.getItem('tags')) || [];
-            const armarios = JSON.parse(localStorage.getItem('armarios')) || [];
+            //const armarios = JSON.parse(localStorage.getItem('armarios')) || [];
             const carrinhos = JSON.parse(localStorage.getItem('carrinhos')) || [];
 
             // Adicionar as tags salvas
@@ -265,12 +266,12 @@
             });
 
             // Adicionar os armários salvos
-            const armarioTable = document.getElementById('armario-table').querySelector('#c');
-            armarios.forEach(armario => {
-                let row = '<th>Armário '+armarioCount+'</th>';
-               // const row = `<tr><td>${armarioCount++}. ${armario}</td></tr>`;
-                armarioTable.insertAdjacentHTML('beforeend', row);
-            });
+            // const armarioTable = document.getElementById('armario-table').querySelector('#c');
+            // armarios.forEach(armario => {
+            //     let row = '<th>Armário '+armarioCount+'</th>';
+            //    // const row = `<tr><td>${armarioCount++}. ${armario}</td></tr>`;
+            //     armarioTable.insertAdjacentHTML('beforeend', row);
+            // });
 
             // Adicionar os carrinhos salvos
             const carrinhoTable = document.getElementById('carrinho-table').querySelector('tbody');
@@ -291,13 +292,13 @@
             localStorage.setItem('tags', JSON.stringify(tags));
 
             // Salvar armários
-            const armarios = [];
-            const armarioRows = document.getElementById('armario-table').querySelectorAll('tbody tr');
-            armarioRows.forEach(row => {
-                const cell = row.querySelector('td');
-                armarios.push(cell.innerText.replace(/^\d+\. /, '')); // Remove a numeração
-            });
-            localStorage.setItem('armarios', JSON.stringify(armarios));
+            // const armarios = [];
+            // const armarioRows = document.getElementById('armario-table').querySelectorAll('tbody tr');
+            // armarioRows.forEach(row => {
+            //     const cell = row.querySelector('td');
+            //     armarios.push(cell.innerText.replace(/^\d+\. /, '')); // Remove a numeração
+            // });
+          //  localStorage.setItem('armarios', JSON.stringify(armarios));
 
             // Salvar carrinhos
             const carrinhos = [];
@@ -339,17 +340,17 @@
             saveData(); // Salvar dados após excluir a tag
         }
 
-        function addItem(type) {
-            const table = document.getElementById(`${type}-table`).querySelector('#c');
-            const portas = document.querySelector('#portas');            
-            //const row = `<tr><td>${armarioCount++}. <input type="text"></td></tr>`;
-            let row = '<th>Armário '+(armarioCount++)+'<button onclick="addLinha('+armarioCount+')">Adicionar lINHA</button></th>';
-            table.insertAdjacentHTML('beforeend', row);
+        // function addItem(type) {
+        //     const table = document.getElementById(`${type}-table`).querySelector('#c');
+        //     const portas = document.querySelector('#portas');            
+        //     //const row = `<tr><td>${armarioCount++}. <input type="text"></td></tr>`;
+        //     let row = '<th>Armário '+(armarioCount++)+'<button onclick="addLinha('+armarioCount+')">Adicionar lINHA</button></th>';
+        //     table.insertAdjacentHTML('beforeend', row);
 
-            const coluna = '<td id="p'+(armarioCount-1)+'"></td>'
-            portas.insertAdjacentHTML('beforeend', coluna);
-            saveData(); // Salvar dados após adicionar armário
-        }
+        //     const coluna = '<td id="p'+(armarioCount-1)+'"></td>'
+        //     portas.insertAdjacentHTML('beforeend', coluna);
+        //     saveData(); // Salvar dados após adicionar armário
+        // }
 
         
 
@@ -381,19 +382,19 @@
                 });
             }
 
-
+            loadData();
             
 
             showTab('inicio');
             loadSavedData(); // Carregar dados salvos ao iniciar
         };
 
-        function addLinha(num){
-            num = num -1;
-            let input = '<input type="text">';
-            let porta = document.querySelector('#p'+num);
-            porta. insertAdjacentHTML('beforeend', input);
-        }
+        // function addLinha(num){
+        //     num = num -1;
+        //     let input = '<input type="text" class="p'+num+'">';
+        //     let porta = document.querySelector('#p'+num);
+        //     porta. insertAdjacentHTML('beforeend', input);
+        // }
 
         function AddGaveta(n, value = '') {
             let gaveta = document.querySelector('#g' + n);
@@ -429,6 +430,76 @@
         
         localStorage.setItem('carrinho' + carrinhoNumber, JSON.stringify(items));
     }
+        
+
+//  ----------------------------------------------------------------------------------------
+ // Função para adicionar um novo armário como coluna
+ function addArmario() {
+            const tbody = document.getElementById('linha-inputs');
+            const newCell = document.createElement('td');
+            newCell.innerHTML = `
+                <input type="text" class="armario" oninput="salvarDadosArmarios()" placeholder="Nome do Armário">
+                <button onclick="addLinha(this)">Adicionar Linha</button>
+                <div class="linhas"></div>
+            `;
+            tbody.appendChild(newCell);
+            loadData(); // Carrega os dados ao adicionar um armário
+        }
+
+        // Função para adicionar uma linha a um armário (nova entrada na coluna)
+        function addLinha(button) {
+            const linhasDiv = button.parentElement.querySelector('.linhas');
+            const input = document.createElement('input');
+            input.type = 'text';
+            input.className = 'armario-linha';
+            input.oninput = salvarDadosArmarios;
+            linhasDiv.appendChild(input);
+        }
+
+        // Função para salvar dados no Local Storage
+        function salvarDadosArmarios() {
+            const armarios = document.querySelectorAll('.armario');
+            const dados = [];
+
+            armarios.forEach((armario) => {
+                const armarioDados = { nome: armario.value, linhas: [] };
+                const linhas = armario.parentElement.querySelectorAll('.armario-linha');
+                
+                linhas.forEach((linha) => {
+                    armarioDados.linhas.push(linha.value); // Salva os valores das linhas
+                });
+
+                dados.push(armarioDados); // Adiciona armário e suas linhas ao array
+            });
+
+            localStorage.setItem('armarioData', JSON.stringify(dados)); // Salva os dados no Local Storage
+        }
+
+        // Função para carregar dados do Local Storage
+        function loadData() {
+            const storedData = localStorage.getItem('armarioData');
+            if (storedData) {
+                const dados = JSON.parse(storedData);
+                dados.forEach(armario => {
+                    const newCell = document.createElement('td');
+                    newCell.innerHTML = `
+                        <input type="text" class="armario" value="${armario.nome}" oninput="salvarDadosArmarios()" placeholder="Nome do Armário">
+                        <button onclick="addLinha(this)">Adicionar Linha</button>
+                        <div class="linhas"></div>
+                    `;
+                    armario.linhas.forEach(linha => {
+                        const linhaInput = document.createElement('input');
+                        linhaInput.type = 'text';
+                        linhaInput.className = 'armario-linha';
+                        linhaInput.value = linha;
+                        linhaInput.oninput = salvarDadosArmarios;
+                        newCell.querySelector('.linhas').appendChild(linhaInput);
+                    });
+                    document.getElementById('linha-inputs').appendChild(newCell);
+                });
+            }
+        }
+
         
     </script>
 </body>
