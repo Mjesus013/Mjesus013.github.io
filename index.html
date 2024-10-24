@@ -1,0 +1,435 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TeCM - Sistema de Manutenção</title>
+    <style>
+        body { 
+            font-family: 'Arial', sans-serif; 
+            margin: 0; 
+            padding: 0; 
+            background-color: #101010; /* Fundo preto */
+            color: #EAEAEA; /* Branco suave */
+        }
+        header {
+            background-color: #FF6F20; /* Laranja forte */
+            height: 200px; 
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.7);
+            position: relative;
+        }
+        header h1 {
+            margin: 0;
+            font-size: 2.5rem;
+            text-align: center;
+        }
+        nav {
+            background-color: #1A1A1A; /* Cinza muito escuro */
+            overflow: hidden; 
+            border-bottom: 2px solid #FF6F20; /* Borda inferior laranja */
+        }
+        nav ul {
+            list-style-type: none; 
+            padding: 0; 
+            margin: 0; 
+            display: flex; 
+            justify-content: center; 
+        }
+        nav li { 
+            margin: 0; 
+        }
+        nav a { 
+            display: block; 
+            color: #EAEAEA; /* Branco suave */
+            padding: 14px 20px; 
+            text-decoration: none; 
+            transition: background-color 0.3s; 
+            border-radius: 20px; /* Bordas arredondadas */
+        }
+        nav a:hover { 
+            background-color: #FF9F40; /* Laranja mais claro */
+        }
+        .content { 
+            padding: 20px; 
+            max-width: 800px; 
+            margin: auto; 
+            background-color: #2A2A2A; /* Cinza escuro */
+            border-radius: 10px; 
+            box-shadow: 0 2px 4px rgba(255, 255, 255, 0.1); 
+            margin-top: 20px; 
+        }
+        footer {
+            background-color: #1A1A1A; 
+            color: #EAEAEA; /* Branco suave */
+            text-align: center; 
+            padding: 10px; 
+            position: relative; 
+            bottom: 0; 
+            width: 100%; 
+        }
+        table { 
+            width: 100%; 
+            border-collapse: collapse; 
+            margin-top: 20px; 
+        }
+        th, td { 
+            border: 1px solid #555; /* Cinza médio */
+            padding: 8px; 
+            text-align: left; 
+        }
+        th { 
+            background-color: #FF6F20; /* Laranja forte */
+            color: #EAEAEA; /* Branco suave */
+        }
+        button { 
+            margin-top: 10px; 
+            padding: 10px 15px; 
+            background-color: #FF6F20; /* Laranja forte */
+            color: #EAEAEA; /* Branco suave */
+            border: none; 
+            border-radius: 5px; 
+            cursor: pointer; 
+            transition: background-color 0.3s; 
+        }
+        button:hover { 
+            background-color: #FF9F40; /* Laranja mais claro */
+        }
+        input[type="text"] {
+            width: calc(100% - 20px); 
+            padding: 10px; 
+            margin-top: 10px; 
+            border: 1px solid #555; /* Cinza médio */
+            border-radius: 4px; 
+            background-color: #333; /* Cinza escuro */
+            color: #EAEAEA; /* Branco suave */
+        }
+        .hidden {
+            display: none; /* Oculta as abas */
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+        <h1>TeCM - Sistema de Manutenção</h1>
+    </header>
+
+    <nav>
+        <ul>
+            <li><a href="#inicio" onclick="showTab('inicio')">Início</a></li>
+            <li><a href="#tagueamento" onclick="showTab('tagueamento')">Tagueamento</a></li>
+            <li><a href="#matriz" onclick="showTab('matriz')">Matriz de Criticidade</a></li>
+            <li><a href="#ficha" onclick="showTab('ficha')">Criar Ficha Técnica</a></li>
+            <li><a href="#armarios" onclick="showTab('armarios')">Armários</a></li>
+            <li><a href="#carrinhos" onclick="showTab('carrinhos')">Carrinhos</a></li>
+        </ul>
+    </nav>
+
+    <div id="inicio" class="content">
+        <h2>História da TeCM</h2>
+        <p>A TeCM nasceu da paixão de transformar a maneira como as empresas lidam com a manutenção. Comprometidos a elevar o padrão de eficiência industrial, a TeCM foi criada com o objetivo de planejar, organizar e otimizar processos de manutenção de forma inteligente.</p>
+        <p>Nosso foco é simplificar a gestão de ativos e equipamentos, garantindo que as operações funcionem sem interrupções e com máximo desempenho.</p>
+        <p>Combinando tecnologia, inovação e uma equipe dedicada, desenvolvemos soluções de controle de manutenção com planejamento estratégico. Sabemos que o futuro da indústria está na automação e no uso inteligente dos dados, e é isso que oferecemos: uma plataforma eficiente, personalizada e fácil de usar, que coloca o controle total nas mãos de nossos clientes.</p>
+    </div>
+
+    <div id="tagueamento" class="content hidden">
+        <h2>Tagueamento</h2>
+        <button onclick="showTagForm()">Adicionar Tag</button>
+        <div id="tag-form" class="hidden">
+            <p><label>Identidade Funcional: <input type="text" id="identidade"></label></p>
+            <p><label>Localização: <input type="text" id="localizacao"></label></p>
+            <p><label>Setor: <input type="text" id="setor"></label></p>
+            <button onclick="generateTag()">Gerar Tag</button>
+        </div>
+        <table id="tag-table">
+            <thead>
+                <tr>
+                    <th>Tag</th>
+                    <th>Data e Hora</th>
+                    <th>Ação</th>
+                </tr>
+            </thead>
+            <tbody></tbody>
+        </table>
+    </div>
+
+    <div id="matriz" class="content hidden">
+        <h2>Matriz de Criticidade</h2>
+        <button onclick="window.open('https://docs.google.com/spreadsheets/d/1D5hK903Mh8GWAOHBUlObaT8b90LnzOItZcfSA5j6VsY/edit?gid=1798459005#gid=1798459005', '_blank')">Adicionar Ativo</button>
+    </div>
+
+    <div id="ficha" class="content hidden">
+        <h2>Criar Ficha Técnica</h2>
+        <button onclick="window.open('https://docs.google.com/spreadsheets/d/1T9ygPgGlaRF6OthT_Tv0gvXia1nS3gtQ/edit?usp=sharing&rtpof=true&sd=true', '_blank')">Criar Ficha Técnica</button>
+    </div>
+
+    <div id="armarios" class="content hidden">
+        <h2>Armários</h2>
+        <button onclick="addItem('armario')">Adicionar Armário</button>
+        
+        <table id="armario-table">
+            <thead>
+                <tr id="c">
+                    
+                </tr>
+            </thead>
+            <tbody>
+                <tr id="portas"></tr>
+            </tbody>
+        </table>
+    </div>
+
+    <div id="carrinhos" class="content hidden">
+        <h2>Carrinhos</h2>
+        <button onclick="addRow()">Adicionar Carrinho</button>
+        <table id="carrinho-table">
+            <thead>
+                <tr>
+                    <th>Carrinho 1 <button onclick="AddGaveta(1)"> + </button></th>
+                    <th>Carrinho 2 <button onclick="AddGaveta(2)"> + </button></th>
+                    <th>Carrinho 3 <button onclick="AddGaveta(3)"> + </button></th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td id="g1"></td>
+                    <td id="g2"></td>
+                    <td id="g3"></td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+
+    <footer>
+        <p>Todos os direitos reservados para Eudmarco S. A.</p>
+    </footer>
+
+    <script>
+        let tagSequence = { TX: 1, MC: 1, RS: 1, EG: 1, EE: 1 };
+        let armarioCount = 1; // Contador de armários
+        let carrinhoCount = 1; // Contador de carrinhos
+
+
+        
+
+
+        
+
+
+        function addRow(columnIndex) {
+        const table = document.querySelector('#armario-table');
+        const tbody = table.querySelector('tbody');
+
+        // Se não houver linhas, adiciona a primeira
+        if (tbody.children.length === 0) {
+            const newRow = document.createElement('tr');
+            for (let i = 0; i < columnCount; i++) {
+                const newCell = document.createElement('td');
+                newRow.appendChild(newCell);
+            }
+            tbody.appendChild(newRow);
+        }
+
+        // Adiciona uma nova linha na coluna correspondente
+        const newRow = document.createElement('tr');
+        for (let i = 0; i < columnCount; i++) {
+            const newCell = document.createElement('td');
+            if (i === columnIndex - 1) {
+                const input = document.createElement('input');
+                input.type = 'text';
+                newCell.appendChild(input);
+            }
+            newRow.appendChild(newCell);
+        }
+        tbody.appendChild(newRow);
+    }
+
+
+
+
+
+        const loadSavedData = () => {
+            const tags = JSON.parse(localStorage.getItem('tags')) || [];
+            const armarios = JSON.parse(localStorage.getItem('armarios')) || [];
+            const carrinhos = JSON.parse(localStorage.getItem('carrinhos')) || [];
+
+            // Adicionar as tags salvas
+            const table = document.getElementById('tag-table').querySelector('tbody');
+            tags.forEach(tag => {
+                //
+               // const row = `<tr><td>${tag.tag}</td><td>${tag.date}</td><td><button onclick="deleteTag(this)">Excluir</button></td></tr>`;
+                table.insertAdjacentHTML('beforeend', row);
+            });
+
+            // Adicionar os armários salvos
+            const armarioTable = document.getElementById('armario-table').querySelector('#c');
+            armarios.forEach(armario => {
+                let row = '<th>Armário '+armarioCount+'</th>';
+               // const row = `<tr><td>${armarioCount++}. ${armario}</td></tr>`;
+                armarioTable.insertAdjacentHTML('beforeend', row);
+            });
+
+            // Adicionar os carrinhos salvos
+            const carrinhoTable = document.getElementById('carrinho-table').querySelector('tbody');
+            carrinhos.forEach(carrinho => {
+                const row = `<tr><td>${carrinhoCount++}. <input type="text" value="${carrinho}"></td></tr>`;
+                carrinhoTable.insertAdjacentHTML('beforeend', row);
+            });
+        };
+
+        const saveData = () => {
+            // Salvar tags
+            const tags = [];
+            const tagRows = document.getElementById('tag-table').querySelectorAll('tbody tr');
+            tagRows.forEach(row => {
+                const cells = row.querySelectorAll('td');
+                tags.push({ tag: cells[0].innerText, date: cells[1].innerText });
+            });
+            localStorage.setItem('tags', JSON.stringify(tags));
+
+            // Salvar armários
+            const armarios = [];
+            const armarioRows = document.getElementById('armario-table').querySelectorAll('tbody tr');
+            armarioRows.forEach(row => {
+                const cell = row.querySelector('td');
+                armarios.push(cell.innerText.replace(/^\d+\. /, '')); // Remove a numeração
+            });
+            localStorage.setItem('armarios', JSON.stringify(armarios));
+
+            // Salvar carrinhos
+            const carrinhos = [];
+            const carrinhoRows = document.getElementById('carrinho-table').querySelectorAll('tbody tr');
+            carrinhoRows.forEach(row => {
+                const cell = row.querySelector('td input');
+                carrinhos.push(cell.value);
+            });
+            localStorage.setItem('carrinhos', JSON.stringify(carrinhos));
+        };
+
+        function generateTag() {
+            const identidade = document.getElementById('identidade').value;
+            const localizacao = document.getElementById('localizacao').value;
+            const setor = document.getElementById('setor').value;
+
+            const idMap = {
+                'terex': 'TX',
+                'meclift': 'MC',
+                'hyster': 'RS',
+                'empilhadeira elétrica': 'EE',
+                'empilhadeira a gás': 'EG'
+            };
+
+            const idPrefix = idMap[identidade.toLowerCase()] || '';
+            const tag = `${idPrefix}-${localizacao.substring(0, 3).toUpperCase()}-${setor.substring(0, 3).toUpperCase()}-${tagSequence[idPrefix]++}`;
+
+            const table = document.getElementById('tag-table').querySelector('tbody');
+            const row = `<tr><td>${tag}</td><td>${new Date().toLocaleString()}</td><td><button onclick="deleteTag(this)">Excluir</button></td></tr>`;
+            table.insertAdjacentHTML('beforeend', row);
+
+            saveData(); // Salvar dados após adicionar a tag
+            clearTagForm(); // Limpar o formulário após adicionar a tag
+        }
+
+        function deleteTag(button) {
+            const row = button.closest('tr');
+            row.remove();
+            saveData(); // Salvar dados após excluir a tag
+        }
+
+        function addItem(type) {
+            const table = document.getElementById(`${type}-table`).querySelector('#c');
+            const portas = document.querySelector('#portas');            
+            //const row = `<tr><td>${armarioCount++}. <input type="text"></td></tr>`;
+            let row = '<th>Armário '+(armarioCount++)+'<button onclick="addLinha('+armarioCount+')">Adicionar lINHA</button></th>';
+            table.insertAdjacentHTML('beforeend', row);
+
+            const coluna = '<td id="p'+(armarioCount-1)+'"></td>'
+            portas.insertAdjacentHTML('beforeend', coluna);
+            saveData(); // Salvar dados após adicionar armário
+        }
+
+        
+
+        function showTagForm() {
+            document.getElementById('tag-form').classList.toggle('hidden');
+        }
+
+        function clearTagForm() {
+            document.getElementById('identidade').value = '';
+            document.getElementById('localizacao').value = '';
+            document.getElementById('setor').value = '';
+        }
+
+        function showTab(tabName) {
+            const tabs = document.querySelectorAll('.content');
+            tabs.forEach(tab => {
+                tab.classList.add('hidden'); // Oculta todas as abas
+            });
+            document.getElementById(tabName).classList.remove('hidden'); // Mostra a aba selecionada
+        }
+
+        // Inicializa a exibição da aba inicial e carrega os dados salvos
+        window.onload = () => {
+
+            for (let i = 1; i <= 3; i++) {
+                const storedItems = JSON.parse(localStorage.getItem('carrinho' + i)) || [];
+                storedItems.forEach(item => {
+                    AddGaveta(i, item);
+                });
+            }
+
+
+            
+
+            showTab('inicio');
+            loadSavedData(); // Carregar dados salvos ao iniciar
+        };
+
+        function addLinha(num){
+            num = num -1;
+            let input = '<input type="text">';
+            let porta = document.querySelector('#p'+num);
+            porta. insertAdjacentHTML('beforeend', input);
+        }
+
+        function AddGaveta(n, value = '') {
+            let gaveta = document.querySelector('#g' + n);
+            let item = `<span>
+                            <input name="carrinho${n}[]" class="carrinho${n}[]" type="text" 
+                            value="${value}" oninput="saveToLocalStorage(${n}, this.value, this)">
+                            <button onclick="Excluir(this)"> (x) </button>
+                        </span>`;
+            gaveta.insertAdjacentHTML('beforeend', item);
+        }
+        function Excluir(elemento) {
+            const input = elemento.parentElement.querySelector('input');
+            const carrinhoNumber = Array.from(elemento.parentElement.parentElement.children).indexOf(elemento.parentElement.parentElement);
+            elemento.parentElement.remove();
+            saveToLocalStorage(carrinhoNumber + 1, null, input);
+        }
+
+        function saveToLocalStorage(carrinhoNumber, value, input) {
+        let items = JSON.parse(localStorage.getItem('carrinho' + carrinhoNumber)) || [];
+        
+        if (value !== null) {
+            const index = Array.from(input.parentElement.parentElement.children).indexOf(input.parentElement);
+            if (value === '') {
+                items.splice(index, 1); // Remove if the input is empty
+            } else {
+                if (index < items.length) {
+                    items[index] = value; // Update existing
+                } else {
+                    items.push(value); // Add new
+                }
+            }
+        }
+        
+        localStorage.setItem('carrinho' + carrinhoNumber, JSON.stringify(items));
+    }
+        
+    </script>
+</body>
+</html>
